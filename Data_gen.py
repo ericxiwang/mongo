@@ -7,7 +7,7 @@ import base64
 import sys
 import json
 import uuid
-from datetime import *
+import datetime
 import time
 import random
 
@@ -19,8 +19,12 @@ def event_id_gen(random_datetime):  #generate the real event_id element
     return event_id
 
 
-def package_generator(event_name, SDK_version, token_id, Current_datetime, distinct_id):
+def package_generator(event_name, SDK_version, token_id, Current_datetime, distinct_id,country_code):
     #print country_code
+
+    time_1 = datetime.datetime.fromtimestamp(Current_datetime, None)
+
+    print "#####",time_1
 
     event_property = {
         "distinct_id": distinct_id,  #"YA0debug": 1,
@@ -30,13 +34,19 @@ def package_generator(event_name, SDK_version, token_id, Current_datetime, disti
 
         "YA0token": token_id,  #"ctime": int(time.time()),
         "ctime": Current_datetime,
-        "event_id": event_id_gen(Current_datetime)
+        "event_id": event_id_gen(Current_datetime),
+        "time": datetime.datetime.fromtimestamp(Current_datetime, None),
+        "time_pacific": datetime.datetime.fromtimestamp(Current_datetime, None),
+        "country": country_code
+
+
     }
 
     #main JSON:template_data
     template_data = {
         "event": event_name,
-        "properties": event_property
+        "properties": event_property,
+
 
     }
 
@@ -54,12 +64,18 @@ def package_generator(event_name, SDK_version, token_id, Current_datetime, disti
 
         amount = random.choice([1.99, 2.99, 3.99])
 
-        event_property.update({"currency": "CAD", "amount": amount})
+        USD = amount*0.7
 
-    json_data = json.dumps(template_data)
+        event_property.update({"currency": "CAD", "amount": amount,"YA0USD":USD})
+
+    #json_data = json.dumps(template_data)
+
+    json_data = template_data
+
+
     #print json_data
 
-    transfer_base64 = "data=" + base64.b64encode(json_data)
+    #transfer_base64 = "data=" + base64.b64encode(json_data)
 
     #return transfer_base64
     return json_data
@@ -72,6 +88,6 @@ if __name__ == '__main__':
     timeStamp = 1403971200
     distinct_id = "BE-211"
 
-    a = package_generator(event_name, "2.0.2", "8416e32af87f11e284c212313b0ace15", timeStamp, distinct_id)
+    a = package_generator(event_name, "2.0.2", "8416e32af87f11e284c212313b0ace15", timeStamp, distinct_id,"CA")
 
     print a

@@ -86,13 +86,13 @@ def event_gen(current_date, x, http_post_enable):
         ########################## YA0birth/start  as follow ###################
 
         YA0birth = Data_gen.package_generator("YA0birth", "2.0.2", "8416e32af87f11e284c212313b0ace15",
-                                                          random_time(datetime_input), distinct_id)
+                                                          random_time(datetime_input), distinct_id,country_code)
 
         http_post(YA0birth, http_post_enable)
 
         YA0start = Data_gen.package_generator("YA0start", "2.0.2", "8416e32af87f11e284c212313b0ace15",
                                                           random_time(datetime_input),
-                                                          distinct_id)  # After YA0birth, matched one YA0start
+                                                          distinct_id,country_code)  # After YA0birth, matched one YA0start
         ##rex_YA0start = urllib.urlopen(url,YA0start)
 
         http_post(YA0start, http_post_enable)
@@ -103,7 +103,7 @@ def event_gen(current_date, x, http_post_enable):
         #print "send YA0session"
 
         YA0session = Data_gen.package_generator("YA0session", "2.0.2", "8416e32af87f11e284c212313b0ace15",
-                                                            random_time(datetime_input), distinct_id)
+                                                            random_time(datetime_input), distinct_id,country_code)
 
         http_post(YA0session, http_post_enable)
 
@@ -118,10 +118,14 @@ def event_gen(current_date, x, http_post_enable):
 
             print "--------start retetion----------"
 
-            fate_percentage = [0.55, 0.49, 0.43, 0.37, 0.31, 0.25, 0.2, 0.12,
-                               0.08]  ######## array of retention rate ########
+            fate_percentage = [0.55, 0.49, 0.43, 0.37, 0.31, 0.25, 0.22, 0.21,
+                               0.19, 0.18, 0.17, 0.16, 0.158, 0.154, 0.149, 0.146, 0.142, 0.139, 0.136, 0.133, 0.13,
+                               0.127, 0.125, 0.123, 0.12, 0.118, 0.116, 0.115, 0.113, 0.111, 0.109, 0.108, 0.106, 0.105,
+                               0.104, 0.102, 0.101, 0.1, 0.099, 0.098, 0.097, 0.096, 0.095, 0.0938, 0.093, 0.092, 0.091,
+                               0.09, 0.089, 0.088, 0.087, 0.086, 0.085, 0.084, 0.083, 0.082, 0.081, 0.8,
+                               0.079,0.078]  ######## array of retention rate ########
 
-            for fade_rate in range(1, 9):
+            for fade_rate in range(1, len(fate_percentage)):
                 ######## go through the whole daily dirstinct_id and select randomly for 8 days
                 ######## add offset days to current datetime_offset_1 ############
 
@@ -157,7 +161,7 @@ def event_gen(current_date, x, http_post_enable):
                     YA0start_retention = Data_gen.package_generator("YA0start", "2.0.2",
                                                                                 "8416e32af87f11e284c212313b0ace15",
                                                                                 random_time(datetime_offset_1),
-                                                                                daily_user_list[daily_retention])
+                                                                                daily_user_list[daily_retention],country_code)
 
                     http_post(YA0start_retention, http_post_enable)
 
@@ -166,29 +170,31 @@ def event_gen(current_date, x, http_post_enable):
                     YA0charge = Data_gen.package_generator("YA0charge", "2.0.2",
                                                                        "8416e32af87f11e284c212313b0ace15",
                                                                        random_time(datetime_offset_1),
-                                                                       daily_user_list[daily_retention])
+                                                                       daily_user_list[daily_retention],country_code)
 
                     http_post(YA0charge, http_post_enable)
                     #rex_YA0start_retention = urllib.urlopen(url,YA0charge)
 
 
 ##################################	Retention Event end ######################################
-
+conn = pymongo.Connection('localhost',27017) #
 def http_post(event, http_post_enable):
     if http_post_enable == 1:
-        conn = pymongo.Connection('localhost',27017) #
+        global conn
 
         db = conn.ymca
 
-        coll = db.user_event
+
 
 
 
         print " this is data",event
 
-        event_1 = json.loads(event) # JSON object need to use json.loads to match the real json data
+        #event_1 = json.loads(event) # JSON object need to use json.loads to match the real json data
 
-        db.user_event.insert(event_1)
+        db.events.insert(event)
+
+        #conn.close()
 
     else:
         pass
@@ -207,12 +213,12 @@ if __name__ == '__main__':
     #event_generator("YA0session")
     #event_generator("YA0charge")
     #user_retention()
-    date_start = "2014-6-24 00:00:00"
-    duration = 10
+    date_start = "2014-7-8 00:00:00"
+    duration = 90
 
     project_profile(date_start, duration,
                     http_post_enable = 1)  # if http_post_enable = 0 that means no real package to be sent out
 
-
+    conn.close()
 
 
