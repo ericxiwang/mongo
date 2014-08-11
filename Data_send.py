@@ -1,3 +1,14 @@
+__author__ = 'ericwang'
+########## YMC Network ##########
+########## author:ERIC WANG #####
+########## create date:1st Aug 2014######
+########## file name:Data_send.py #######
+########## insert data to mongodb directly #####
+########## linked file:Data_gen.py ######
+
+
+
+
 import random
 import bisect
 import uuid
@@ -29,7 +40,7 @@ def event_gen(current_date, x, http_post_enable):
 
     datetime_input = int(time.mktime(current_date))  # ####### transfer current_date into ctime	#########
 
-    amount_birth = int(1 * (x ** 0.5) + random.randint(-3, x))
+    amount_birth = int(5 * (x ** 0.5) + random.randint(-3, x))
 
     daily_user_list = []  # create a list for reuse distinct_id, clear this daily
 
@@ -122,10 +133,15 @@ def event_gen(current_date, x, http_post_enable):
                                0.19, 0.18, 0.17, 0.16, 0.158, 0.154, 0.149, 0.146, 0.142, 0.139, 0.136, 0.133, 0.13,
                                0.127, 0.125, 0.123, 0.12, 0.118, 0.116, 0.115, 0.113, 0.111, 0.109, 0.108, 0.106, 0.105,
                                0.104, 0.102, 0.101, 0.1, 0.099, 0.098, 0.097, 0.096, 0.095, 0.0938, 0.093, 0.092, 0.091,
-                               0.09, 0.089, 0.088, 0.087, 0.086, 0.085, 0.084, 0.083, 0.082, 0.081, 0.8,
-                               0.079,0.078]  ######## array of retention rate ########
+                               0.09, 0.089, 0.088, 0.087, 0.086, 0.085, 0.084, 0.083, 0.082, 0.081, 0.08,
+                               0.079,0.078,0.07]  ######## array of retention rate ########
 
-            for fade_rate in range(1, len(fate_percentage)):
+
+
+
+            for fade_rate in range(0, len(fate_percentage)):
+
+                print "retention rate:",fade_rate,"----",fate_percentage[fade_rate]
                 ######## go through the whole daily dirstinct_id and select randomly for 8 days
                 ######## add offset days to current datetime_offset_1 ############
 
@@ -188,7 +204,7 @@ def http_post(event, http_post_enable):
 
 
 
-        print " this is data",event
+        #print " this is data",event
 
         #event_1 = json.loads(event) # JSON object need to use json.loads to match the real json data
 
@@ -213,8 +229,8 @@ if __name__ == '__main__':
     #event_generator("YA0session")
     #event_generator("YA0charge")
     #user_retention()
-    date_start = "2014-7-8 00:00:00"
-    duration = 90
+    date_start = "2014-7-11 00:00:00"
+    duration = 66
 
     project_profile(date_start, duration,
                     http_post_enable = 1)  # if http_post_enable = 0 that means no real package to be sent out

@@ -1,7 +1,7 @@
 # ##YMCA server site test script###
 # ##Author:Eric Wang	####
 # ##Create data:/5/1/2014####
-###script name:package_gen.py#####
+# ##script name:package_gen.py#####
 
 import base64
 import sys
@@ -19,12 +19,12 @@ def event_id_gen(random_datetime):  #generate the real event_id element
     return event_id
 
 
-def package_generator(event_name, SDK_version, token_id, Current_datetime, distinct_id,country_code):
+def package_generator(event_name, SDK_version, token_id, Current_datetime, distinct_id, country_code):
     #print country_code
 
     time_1 = datetime.datetime.fromtimestamp(Current_datetime, None)
 
-    print "#####",time_1
+    #print "#####", time_1
 
     event_property = {
         "distinct_id": distinct_id,  #"YA0debug": 1,
@@ -64,9 +64,9 @@ def package_generator(event_name, SDK_version, token_id, Current_datetime, disti
 
         amount = random.choice([1.99, 2.99, 3.99])
 
-        USD = amount*0.7
+        USD = amount * 0.7
 
-        event_property.update({"currency": "CAD", "amount": amount,"YA0USD":USD})
+        event_property.update({"currency": "CAD", "amount": amount, "YA0USD": USD})
 
     #json_data = json.dumps(template_data)
 
@@ -79,6 +79,7 @@ def package_generator(event_name, SDK_version, token_id, Current_datetime, disti
 
     #return transfer_base64
     return json_data
+
 #return json_data
 
 
@@ -88,6 +89,6 @@ if __name__ == '__main__':
     timeStamp = 1403971200
     distinct_id = "BE-211"
 
-    a = package_generator(event_name, "2.0.2", "8416e32af87f11e284c212313b0ace15", timeStamp, distinct_id,"CA")
+    a = package_generator(event_name, "2.0.2", "8416e32af87f11e284c212313b0ace15", timeStamp, distinct_id, "CA")
 
     print a
