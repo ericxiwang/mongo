@@ -1,6 +1,6 @@
 __author__ = 'ericwang'
-########## YMC Network ##########
-########## author:ERIC WANG #####
+# ######### YMC Network ##########
+# ######### author:ERIC WANG #####
 ########## create date:1st Aug 2014######
 ########## file name:Data_send.py #######
 ########## insert data to mongodb directly #####
@@ -26,7 +26,6 @@ def project_profile(date_start, duration, http_post_enable):
         ISOFMT = '%Y-%m-%d %H:%M:%S'
         date_start_1 = datetime.datetime(*time.strptime(time.strftime(date_start), ISOFMT)[:6])
 
-
         current_date_orignal = str(date_start_1 + datetime.timedelta(x))
 
         current_date = time.strptime(current_date_orignal, "%Y-%m-%d %H:%M:%S")
@@ -37,10 +36,9 @@ def project_profile(date_start, duration, http_post_enable):
 
 
 def event_gen(current_date, x, http_post_enable):
-
     datetime_input = int(time.mktime(current_date))  # ####### transfer current_date into ctime	#########
 
-    amount_birth = int(5 * (x ** 0.5) + random.randint(-3, x))
+    amount_birth = int(10 * (x ** 0.5) + random.randint(-3, x))
 
     daily_user_list = []  # create a list for reuse distinct_id, clear this daily
 
@@ -97,13 +95,13 @@ def event_gen(current_date, x, http_post_enable):
         ########################## YA0birth/start  as follow ###################
 
         YA0birth = Data_gen.package_generator("YA0birth", "2.0.2", "8416e32af87f11e284c212313b0ace15",
-                                                          random_time(datetime_input), distinct_id,country_code)
+                                              random_time(datetime_input), distinct_id, country_code)
 
         http_post(YA0birth, http_post_enable)
 
         YA0start = Data_gen.package_generator("YA0start", "2.0.2", "8416e32af87f11e284c212313b0ace15",
-                                                          random_time(datetime_input),
-                                                          distinct_id,country_code)  # After YA0birth, matched one YA0start
+                                              random_time(datetime_input),
+                                              distinct_id, country_code)  # After YA0birth, matched one YA0start
         ##rex_YA0start = urllib.urlopen(url,YA0start)
 
         http_post(YA0start, http_post_enable)
@@ -114,7 +112,7 @@ def event_gen(current_date, x, http_post_enable):
         #print "send YA0session"
 
         YA0session = Data_gen.package_generator("YA0session", "2.0.2", "8416e32af87f11e284c212313b0ace15",
-                                                            random_time(datetime_input), distinct_id,country_code)
+                                                random_time(datetime_input), distinct_id, country_code)
 
         http_post(YA0session, http_post_enable)
 
@@ -134,14 +132,11 @@ def event_gen(current_date, x, http_post_enable):
                                0.127, 0.125, 0.123, 0.12, 0.118, 0.116, 0.115, 0.113, 0.111, 0.109, 0.108, 0.106, 0.105,
                                0.104, 0.102, 0.101, 0.1, 0.099, 0.098, 0.097, 0.096, 0.095, 0.0938, 0.093, 0.092, 0.091,
                                0.09, 0.089, 0.088, 0.087, 0.086, 0.085, 0.084, 0.083, 0.082, 0.081, 0.08,
-                               0.079,0.078,0.07]  ######## array of retention rate ########
-
-
-
+                               0.079, 0.078, 0.07]  ######## array of retention rate ########
 
             for fade_rate in range(0, len(fate_percentage)):
 
-                print "retention rate:",fade_rate,"----",fate_percentage[fade_rate]
+                print "retention rate:", fade_rate, "----", fate_percentage[fade_rate]
                 ######## go through the whole daily dirstinct_id and select randomly for 8 days
                 ######## add offset days to current datetime_offset_1 ############
 
@@ -175,25 +170,27 @@ def event_gen(current_date, x, http_post_enable):
 
 
                     YA0start_retention = Data_gen.package_generator("YA0start", "2.0.2",
-                                                                                "8416e32af87f11e284c212313b0ace15",
-                                                                                random_time(datetime_offset_1),
-                                                                                daily_user_list[daily_retention],country_code)
+                                                                    "8416e32af87f11e284c212313b0ace15",
+                                                                    random_time(datetime_offset_1),
+                                                                    daily_user_list[daily_retention], country_code)
 
                     http_post(YA0start_retention, http_post_enable)
 
                     #rex_YA0start_retention = urllib.urlopen(url,YA0start_retention)
 
                     YA0charge = Data_gen.package_generator("YA0charge", "2.0.2",
-                                                                       "8416e32af87f11e284c212313b0ace15",
-                                                                       random_time(datetime_offset_1),
-                                                                       daily_user_list[daily_retention],country_code)
+                                                           "8416e32af87f11e284c212313b0ace15",
+                                                           random_time(datetime_offset_1),
+                                                           daily_user_list[daily_retention], country_code)
 
                     http_post(YA0charge, http_post_enable)
                     #rex_YA0start_retention = urllib.urlopen(url,YA0charge)
 
 
 ##################################	Retention Event end ######################################
-conn = pymongo.Connection('localhost',27017) #
+conn = pymongo.Connection('localhost', 27017)  #
+
+
 def http_post(event, http_post_enable):
     if http_post_enable == 1:
         global conn
@@ -216,13 +213,6 @@ def http_post(event, http_post_enable):
         pass
 
 
-
-
-
-
-
-
-
 if __name__ == '__main__':
     #event_generator("YA0birth")
     #event_generator("YA0start")
@@ -230,10 +220,10 @@ if __name__ == '__main__':
     #event_generator("YA0charge")
     #user_retention()
     date_start = "2014-7-11 00:00:00"
-    duration = 66
+    duration = 150
 
     project_profile(date_start, duration,
-                    http_post_enable = 1)  # if http_post_enable = 0 that means no real package to be sent out
+                    http_post_enable=1)  # if http_post_enable = 0 that means no real package to be sent out
 
     conn.close()
 
