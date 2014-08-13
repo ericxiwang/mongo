@@ -12,7 +12,7 @@ import time
 import random
 
 
-def event_id_gen(random_datetime):  #generate the real event_id element
+def event_id_gen(random_datetime):  # generate the real event_id element
     UU_ID = str(uuid.uuid1())
 
     event_id = UU_ID + "_" + str(random_datetime)
@@ -20,11 +20,15 @@ def event_id_gen(random_datetime):  #generate the real event_id element
 
 
 def package_generator(event_name, SDK_version, token_id, Current_datetime, distinct_id, country_code):
-    #print country_code
 
-    time_1 = datetime.datetime.fromtimestamp(Current_datetime, None)
+    GMT_DT = time.gmtime(Current_datetime)
+    Pacific_DT = time.localtime(Current_datetime)
 
-    #print "#####", time_1
+    gmt_time = datetime.datetime(*tuple(GMT_DT)[:6])
+
+    pacific_time = datetime.datetime(*tuple(Pacific_DT)[:6])
+
+
 
     event_property = {
         "distinct_id": distinct_id,  #"YA0debug": 1,
@@ -35,8 +39,14 @@ def package_generator(event_name, SDK_version, token_id, Current_datetime, disti
         "YA0token": token_id,  #"ctime": int(time.time()),
         "ctime": Current_datetime,
         "event_id": event_id_gen(Current_datetime),
-        "time": datetime.datetime.fromtimestamp(Current_datetime, None),
-        "time_pacific": datetime.datetime.fromtimestamp(Current_datetime, None),
+        "time": gmt_time,
+
+
+        "time_pacific": pacific_time,
+
+
+
+
         "country": country_code
 
 
@@ -72,7 +82,6 @@ def package_generator(event_name, SDK_version, token_id, Current_datetime, disti
 
     json_data = template_data
 
-
     print json_data
 
     #transfer_base64 = "data=" + base64.b64encode(json_data)
@@ -80,7 +89,7 @@ def package_generator(event_name, SDK_version, token_id, Current_datetime, disti
     #return transfer_base64
     return json_data
 
-#return json_data
+# return json_data
 
 
 
@@ -91,4 +100,4 @@ if __name__ == '__main__':
 
     a = package_generator(event_name, "2.0.2", "8416e32af87f11e284c212313b0ace15", timeStamp, distinct_id, "CA")
 
-    print a
+
