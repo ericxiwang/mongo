@@ -11,13 +11,24 @@ import datetime
 import pymongo
 import random
 import json
+conn = pymongo.Connection('localhost', 27017)
+
+#### Data Base init ####
+
+db = conn.ymca
+
+db.events.remove({"properties.YA0token":"8416e32af87f11e284c212313b0ace15"})
 
 
 def first_launch_gen(date_start, duration, post_enable):
+
+
+    sum = 0
     for days in range(1, duration):
         ISOFMT = '%Y-%m-%d %H:%M:%S'
 
-        print "day", days
+
+        #print "day", days
 
         date_start_1 = datetime.datetime(*time.strptime(time.strftime(date_start), ISOFMT)[:6])
 
@@ -25,10 +36,10 @@ def first_launch_gen(date_start, duration, post_enable):
 
         current_date = str(date_start_1 + datetime.timedelta(days - 1))
 
-        print current_date
+        #print current_date
 
         for amount_user in range(days):
-            print "++++", amount_user
+
 
             current_date_1 = time.strptime(str(current_date), "%Y-%m-%d %H:%M:%S")
 
@@ -45,13 +56,18 @@ def first_launch_gen(date_start, duration, post_enable):
 
             date_post(YA0birth, post_enable)
 
-            print cTime
+            daily_total = amount_user + 1
 
+        sum = sum + daily_total
+
+
+    return sum
+    conn.close()
 
 
 
 ##################################	Retention Event end ######################################
-conn = pymongo.Connection('localhost', 27017)  #
+
 
 
 def date_post(event, post_enable):
@@ -67,11 +83,11 @@ def date_post(event, post_enable):
 
 
 if __name__ == '__main__':
-    date_start = "2014-7-14 23:00:00" # local time
+    date_start = "2014-7-22 23:00:00" # local time
 
-    duration = 3
+    duration = 5
 
     first_launch_gen(date_start, duration, post_enable=1)
 
-    conn.close()
+
 

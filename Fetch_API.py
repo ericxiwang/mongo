@@ -1,12 +1,10 @@
 import urllib2
-
 import json
-
-
 import time
 
-
 def URL_gen(feature_name,startDate,endDate,timeZone):
+
+    sum = 0
 
     #URL = "http://localhost:9000/api/first_launches?collection_name=events&endDate=2014-01-30&startDate=2014-01-02&timezone=pacific&token=8416e32af87f11e284c212313b0ace15&type=day"
 
@@ -41,17 +39,14 @@ def URL_gen(feature_name,startDate,endDate,timeZone):
 
         TS = dict.get('ts')
 
-        DT = time.gmtime(TS)
+        #DT = time.gmtime(TS)
+        daily_users = dict.get('users')
 
-        print DT
-        print dict.get('users')
+        sum = sum + daily_users
 
+    print "SUM:",sum
 
-
-
-
-        print '==============================='
-
+    return sum
 #print json.dumps(a)
 
 def result_check():
@@ -62,7 +57,7 @@ def result_check():
 
 if __name__ == '__main__':
 
-    URL_gen("first_launches","2014-07-13","2014-07-16","pacific")
+    URL_gen("first_launches","2014-07-21","2014-07-29","pacific")
 
-    URL_gen("first_launches","2014-07-13","2014-07-16","GMT")
+    URL_gen("first_launches","2014-07-21","2014-07-29","GMT")
 
