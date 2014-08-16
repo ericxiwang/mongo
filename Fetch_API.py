@@ -57,7 +57,11 @@ def result_check():
 
 if __name__ == '__main__':
 
-    URL_gen("first_launches","2014-07-21","2014-07-29","pacific")
+    date_start = "2014-7-1" # local time
+
+    date_end = "2014-7-31"
+
+    URL_gen("first_launches",date_start,date_end,"pacific")
 
     URL_gen("first_launches","2014-07-21","2014-07-29","GMT")
 

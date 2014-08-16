@@ -82,7 +82,7 @@ def package_generator(event_name, SDK_version, token_id, Current_datetime, disti
 
     json_data = template_data
 
-    #print json_data
+    json_data
 
     #transfer_base64 = "data=" + base64.b64encode(json_data)
 
