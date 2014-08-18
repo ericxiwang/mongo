@@ -8,6 +8,7 @@ import uuid
 import Data_gen
 import time
 import datetime
+from datetime import date
 import pymongo
 import random
 import json
@@ -36,23 +37,26 @@ def Feature_range(date_start, date_end):
 
 
 def first_launch_gen(date_start, duration, post_enable):
+    users_daily = []
+
+
     sum = 0
     for days in range(1, duration):
-        ISOFMT = '%Y-%m-%d %H:%M:%S'
+        items = {}
 
-
-        #print "day", days
-
-        date_start_1 = datetime.datetime(*time.strptime(time.strftime(date_start), ISOFMT)[:6])
+        date_start_1 = datetime.datetime(*time.strptime(time.strftime(date_start), '%Y-%m-%d %H:%M:%S')[:6])
 
         current_date = str(date_start_1 + datetime.timedelta(days - 1))
 
-        #print current_date
+
+        cTime = int(time.mktime(time.strptime(str(current_date), "%Y-%m-%d %H:%M:%S")))
+
 
         for amount_user in range(days):
-            current_date_1 = time.strptime(str(current_date), "%Y-%m-%d %H:%M:%S")
 
-            cTime = int(time.mktime(current_date_1))
+
+
+
 
             country_code = random.choice(['CA', 'US'])
 
@@ -67,9 +71,27 @@ def first_launch_gen(date_start, duration, post_enable):
 
             daily_total = amount_user + 1
 
-        sum = sum + daily_total
 
-    return sum
+
+            #datetime_TS = time.mktime(str(datetime.datetime.fromtimestamp(cTime).strftime('%Y-%m-%d')))
+
+        #print datetime_TS
+
+        sum = sum + daily_total
+        sum_daily = amount_user + 1
+
+
+        items["user"] = sum_daily
+        items["ts"] = int(time.mktime(date.fromtimestamp(cTime).timetuple())) # new TS only remain the date info
+
+        users_daily.append(items)
+
+
+
+
+
+    return sum, users_daily
+
     conn.close()
 
 
@@ -92,7 +114,7 @@ def date_post(event, post_enable):
 if __name__ == '__main__':
     date_start = "2014-7-1"
 
-    date_end = "2014-7-30"# local time
+    date_end = "2014-7-3"# local time
 
 
     #print Feature_range(date_start, date_end)[4]
@@ -100,7 +122,9 @@ if __name__ == '__main__':
 
 
 
-    first_launch_gen(datetime.datetime.fromtimestamp(Feature_range(date_start, date_end)[0]).strftime("%Y-%m-%d %H:%M:%S"), duration=int(Feature_range(date_start, date_end)[4]), post_enable=1)
+    first_launch_gen(datetime.datetime.fromtimestamp(Feature_range(date_start, date_end)[0]).strftime("%Y-%m-%d %H:%M:%S"), duration=int(Feature_range(date_start, date_end)[4]), post_enable=0)
+    print     first_launch_gen(datetime.datetime.fromtimestamp(Feature_range(date_start, date_end)[0]).strftime("%Y-%m-%d %H:%M:%S"), duration=int(Feature_range(date_start, date_end)[4]), post_enable=0)
+
 
 
 

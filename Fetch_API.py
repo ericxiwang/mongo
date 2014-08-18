@@ -34,6 +34,8 @@ def URL_gen(feature_name,startDate,endDate,timeZone):
 
 
 
+
+
     for dict in list:
 
 
@@ -44,9 +46,11 @@ def URL_gen(feature_name,startDate,endDate,timeZone):
 
         sum = sum + daily_users
 
-    print "SUM:",sum
+    #print "SUM:",sum
 
-    return sum
+
+
+    return sum,list
 #print json.dumps(a)
 
 def result_check():
@@ -59,9 +63,9 @@ if __name__ == '__main__':
 
     date_start = "2014-7-1" # local time
 
-    date_end = "2014-7-31"
+    date_end = "2014-7-3"
 
     URL_gen("first_launches",date_start,date_end,"pacific")
 
-    URL_gen("first_launches","2014-07-21","2014-07-29","GMT")
+    URL_gen("first_launches",date_start,date_end,"GMT")
 

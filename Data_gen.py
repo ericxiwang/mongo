@@ -82,7 +82,7 @@ def package_generator(event_name, SDK_version, token_id, Current_datetime, disti
 
     json_data = template_data
 
-    json_data
+
 
     #transfer_base64 = "data=" + base64.b64encode(json_data)
 
@@ -95,7 +95,7 @@ def package_generator(event_name, SDK_version, token_id, Current_datetime, disti
 
 if __name__ == '__main__':
     event_name = "YA0birth"
-    timeStamp = 1403971200
+    timeStamp = 1404198000
     distinct_id = "BE-211"
 
     a = package_generator(event_name, "2.0.2", "8416e32af87f11e284c212313b0ace15", timeStamp, distinct_id, "CA")
