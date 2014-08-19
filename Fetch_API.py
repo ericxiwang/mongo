@@ -24,7 +24,16 @@ def URL_gen(feature_name,startDate,endDate,timeZone):
 
     type = "type=day"
 
-    URL = host_name + feature_name + "?" + collection_name + "&" + endDate + "&" + startDate + "&" + timezone + "&" + token + "&" +type
+    if feature_name == "new_buyer":
+
+        URL = host_name + "buyer_sort" + "?" + collection_name + "&" + endDate + "&" + "first=1" + startDate + "&" + timezone + "&" + token + "&" +type
+
+
+
+
+    else:
+
+        URL = host_name + feature_name + "?" + collection_name + "&" + endDate + "&" + startDate + "&" + timezone + "&" + token + "&" +type
 
     print URL
 
@@ -61,11 +70,13 @@ def result_check():
 
 if __name__ == '__main__':
 
-    date_start = "2014-7-1" # local time
+    date_start = "2014-7-21" # local time
 
-    date_end = "2014-7-3"
+    date_end = "2014-7-31"
 
     URL_gen("first_launches",date_start,date_end,"pacific")
 
-    URL_gen("first_launches",date_start,date_end,"GMT")
+    URL_gen("user_start",date_start,date_end,"GMT")
+
+    URL_gen("new_buyer",date_start,date_end,"GMT")
 

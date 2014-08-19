@@ -52,7 +52,6 @@ def package_generator(event_name, SDK_version, token_id, Current_datetime, disti
 
     }
 
-    #main JSON:template_data
     template_data = {
         "event": event_name,
         "properties": event_property,
@@ -62,7 +61,7 @@ def package_generator(event_name, SDK_version, token_id, Current_datetime, disti
 
     if event_name == "YA0session":
         start_1 = Current_datetime
-        length_1 = int(random.randint(20, 100))  #session length range (10s to 1000s)
+        length_1 = 100
         end_1 = int(start_1 + length_1)
         session_info = {"start": start_1, "length": length_1, "end": end_1}
 
@@ -72,21 +71,16 @@ def package_generator(event_name, SDK_version, token_id, Current_datetime, disti
 
     elif event_name == "YA0charge":
 
-        amount = random.choice([1.99, 2.99, 3.99])
+        amount = 1.00
 
         USD = amount * 0.7
 
-        event_property.update({"currency": "CAD", "amount": amount, "YA0USD": USD})
+        event_property.update({"currency": "USD", "amount": amount, "YA0USD": USD})
 
     #json_data = json.dumps(template_data)
 
     json_data = template_data
 
-
-
-    #transfer_base64 = "data=" + base64.b64encode(json_data)
-
-    #return transfer_base64
     return json_data
 
 # return json_data

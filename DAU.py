@@ -1,4 +1,6 @@
 __author__ = 'eric'
+
+__author__ = 'eric'
 # ##### Create by Eric Wang ######
 # ##### Create date 8/10/2014 ####
 # ##### For "first launch" feature test ######
@@ -36,21 +38,7 @@ def Feature_range(date_start, date_end):
     return date_start_time, date_end_time, API_start, API_end, duration
 
 
-def first_launch_gen(feature_name,date_start, duration, post_enable):
-
-
-    if feature_name == "first_launches":
-
-        feature_name = "YA0birth"
-    elif feature_name == "user_start":
-
-        feature_name = "YA0start"
-    elif feature_name == "buy_all":
-        feature_name = "YA0charge"
-    else:
-        pass
-
-
+def first_launch_gen(date_start, duration, post_enable):
     users_daily = []
 
 
@@ -78,7 +66,7 @@ def first_launch_gen(feature_name,date_start, duration, post_enable):
             ################# Generate distinct_id ###################################
             distinct_id = str(country_code + "-" + str(uuid.uuid1()))
 
-            YA0birth = Data_gen.package_generator(feature_name, "2.0.2", "8416e32af87f11e284c212313b0ace15",
+            YA0birth = Data_gen.package_generator("YA0start", "2.0.2", "8416e32af87f11e284c212313b0ace15",
                                                   cTime, distinct_id, country_code)
 
             date_post(YA0birth, post_enable)
@@ -136,8 +124,9 @@ if __name__ == '__main__':
 
 
 
-    first_launch_gen(feature_name,datetime.datetime.fromtimestamp(Feature_range(date_start, date_end)[0]).strftime("%Y-%m-%d %H:%M:%S"), duration=int(Feature_range(date_start, date_end)[4]), post_enable=1)
+    first_launch_gen(datetime.datetime.fromtimestamp(Feature_range(date_start, date_end)[0]).strftime("%Y-%m-%d %H:%M:%S"), duration=int(Feature_range(date_start, date_end)[4]), post_enable=0)
     print     first_launch_gen(datetime.datetime.fromtimestamp(Feature_range(date_start, date_end)[0]).strftime("%Y-%m-%d %H:%M:%S"), duration=int(Feature_range(date_start, date_end)[4]), post_enable=0)
+
 
 
 
