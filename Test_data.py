@@ -12,15 +12,13 @@ from datetime import date
 import pymongo
 import random
 import json
-
+########################### Data base connection ####################
 conn = pymongo.Connection('localhost', 27017)
-
-#### Data Base init ####
 
 db = conn.ymca
 
 db.events.remove({"properties.YA0token": "8416e32af87f11e284c212313b0ace15"}) # keep test collection clean
-
+############################# end ############################
 
 def Feature_range(date_start, date_end):
     base_time = " 00:00:00"
@@ -51,22 +49,28 @@ def Input_data_gen(date_start, duration, post_enable):
         cTime = int(time.mktime(time.strptime(str(current_date), "%Y-%m-%d %H:%M:%S")))
 
         ####################### First_launches users ########################
-        for amount_user in range(10*days):
+        for amount_user in range(1*days):
 
             country_code = random.choice(['CA'])
-
-            ################# Generate distinct_id ###################################
             distinct_id = str(country_code + "-" + str(uuid.uuid1()))
 
-            YA0birth = Data_gen.package_generator("YA0birth", "2.0.2", "8416e32af87f11e284c212313b0ace15", # Generate new users
-                                                  cTime, distinct_id, country_code)
-            date_post(YA0birth, post_enable)
+
 
             ####################    DAU #############################
 
             DAU_users = Data_gen.package_generator("YA0start", "2.0.2", "8416e32af87f11e284c212313b0ace15", # Generate new users
                                                   cTime, distinct_id, country_code)
             date_post(DAU_users, post_enable)
+
+
+             ################# Generate distinct_id ###################################
+
+
+            YA0birth = Data_gen.package_generator("YA0birth", "2.0.2", "8416e32af87f11e284c212313b0ace15", # Generate new users
+                                                  cTime, distinct_id, country_code)
+            date_post(YA0birth, post_enable)
+
+
 
             ##################### Revenue ###################
 
@@ -76,12 +80,16 @@ def Input_data_gen(date_start, duration, post_enable):
             date_post(Revenue_users, post_enable)
 
 
+
+
             ######################   Session length ###########################
 
 
             Session_users = Data_gen.package_generator("YA0session", "2.0.2", "8416e32af87f11e284c212313b0ace15", # Generate new users
                                                   cTime, distinct_id, country_code)
             date_post(Session_users, post_enable)
+
+
 
 
 
@@ -108,7 +116,7 @@ def Input_data_gen(date_start, duration, post_enable):
 
     return sum, users_daily
 
-    conn.close()
+
 
 
 ##################################	Retention Event end ######################################
@@ -117,9 +125,7 @@ def Input_data_gen(date_start, duration, post_enable):
 
 def date_post(event, post_enable):
     if post_enable == 1:
-        global conn
-
-        db = conn.ymca
+        global db
 
         db.events.insert(event)
 
@@ -128,8 +134,8 @@ def date_post(event, post_enable):
 
 
 if __name__ == '__main__':
-    date_start = "2014-7-21"
-    date_end = "2014-8-12"# local time
+    date_start = "2014-7-12"
+    date_end = "2014-7-13"# local time
 
     a = Input_data_gen(datetime.datetime.fromtimestamp(Feature_range(date_start, date_end)[0]).strftime("%Y-%m-%d %H:%M:%S"),
                    duration=int(Feature_range(date_start, date_end)[4]),
