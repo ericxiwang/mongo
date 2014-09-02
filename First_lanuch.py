@@ -136,7 +136,7 @@ if __name__ == '__main__':
 
 
 
-    first_launch_gen(feature_name,datetime.datetime.fromtimestamp(Feature_range(date_start, date_end)[0]).strftime("%Y-%m-%d %H:%M:%S"), duration=int(Feature_range(date_start, date_end)[4]), post_enable=1)
+    first_launch_gen(datetime.datetime.fromtimestamp(Feature_range(date_start, date_end)[0]).strftime("%Y-%m-%d %H:%M:%S"), duration=int(Feature_range(date_start, date_end)[4]), post_enable=1)
     print     first_launch_gen(datetime.datetime.fromtimestamp(Feature_range(date_start, date_end)[0]).strftime("%Y-%m-%d %H:%M:%S"), duration=int(Feature_range(date_start, date_end)[4]), post_enable=0)
 
 

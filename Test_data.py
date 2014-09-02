@@ -11,17 +11,12 @@ import datetime
 from datetime import date
 import pymongo
 import random
+import test_conf
 import json
-########################### Data base connection ####################
-conn = pymongo.Connection('localhost', 27017)
-
-db = conn.ymca
-
-db.events.remove({"properties.YA0token": "8416e32af87f11e284c212313b0ace15"}) # keep test collection clean
-############################# end ############################
+db = test_conf.current_database
 
 def Feature_range(date_start, date_end):
-    base_time = " 00:00:00"
+    base_time = " 23:00:00"
 
     date_start_time = int(time.mktime(time.strptime(str(date_start + base_time), "%Y-%m-%d %H:%M:%S")))
     date_end_time = int(time.mktime(time.strptime(str(date_end + base_time), "%Y-%m-%d %H:%M:%S")))
@@ -38,7 +33,6 @@ def Input_data_gen(date_start, duration, post_enable):
 
     users_daily = []
 
-
     sum = 0
     for days in range(1, duration):
         items = {}
@@ -49,7 +43,7 @@ def Input_data_gen(date_start, duration, post_enable):
         cTime = int(time.mktime(time.strptime(str(current_date), "%Y-%m-%d %H:%M:%S")))
 
         ####################### First_launches users ########################
-        for amount_user in range(1*days):
+        for amount_user in range(1000000*days):
 
             country_code = random.choice(['CA'])
             distinct_id = str(country_code + "-" + str(uuid.uuid1()))
@@ -58,26 +52,27 @@ def Input_data_gen(date_start, duration, post_enable):
 
             ####################    DAU #############################
 
-            DAU_users = Data_gen.package_generator("YA0start", "2.0.2", "8416e32af87f11e284c212313b0ace15", # Generate new users
-                                                  cTime, distinct_id, country_code)
+            DAU_users = Data_gen.package_generator("YA0birth",cTime, distinct_id, country_code)
             date_post(DAU_users, post_enable)
 
 
              ################# Generate distinct_id ###################################
 
 
-            YA0birth = Data_gen.package_generator("YA0birth", "2.0.2", "8416e32af87f11e284c212313b0ace15", # Generate new users
-                                                  cTime, distinct_id, country_code)
+            '''YA0birth = Data_gen.package_generator("YA0birth",cTime, distinct_id, country_code)
             date_post(YA0birth, post_enable)
 
 
 
             ##################### Revenue ###################
 
-            Revenue_users = Data_gen.package_generator("YA0charge", "2.0.2", "8416e32af87f11e284c212313b0ace15", # Generate new users
-                                                  cTime, distinct_id, country_code)
+            Revenue_users = Data_gen.package_generator("YA0charge",cTime, distinct_id, country_code)
 
             date_post(Revenue_users, post_enable)
+
+            Revenue_users = Data_gen.package_generator("YA0charge",cTime, distinct_id, country_code)
+
+            date_post(Revenue_users, post_enable)'''
 
 
 
@@ -85,9 +80,8 @@ def Input_data_gen(date_start, duration, post_enable):
             ######################   Session length ###########################
 
 
-            Session_users = Data_gen.package_generator("YA0session", "2.0.2", "8416e32af87f11e284c212313b0ace15", # Generate new users
-                                                  cTime, distinct_id, country_code)
-            date_post(Session_users, post_enable)
+            '''Session_users = Data_gen.package_generator("YA0session",cTime, distinct_id, country_code)
+            date_post(Session_users, post_enable)'''
 
 
 
@@ -134,11 +128,10 @@ def date_post(event, post_enable):
 
 
 if __name__ == '__main__':
-    date_start = "2014-7-12"
-    date_end = "2014-7-13"# local time
 
-    a = Input_data_gen(datetime.datetime.fromtimestamp(Feature_range(date_start, date_end)[0]).strftime("%Y-%m-%d %H:%M:%S"),
-                   duration=int(Feature_range(date_start, date_end)[4]),
+
+    a = Input_data_gen(datetime.datetime.fromtimestamp(Feature_range(test_conf.Date_start, test_conf.Date_end)[0]).strftime("%Y-%m-%d %H:%M:%S"),
+                   duration=int(Feature_range(test_conf.Date_start, test_conf.Date_end)[4]),
                    post_enable=1)
     print a
 

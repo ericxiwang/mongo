@@ -1,6 +1,7 @@
 import urllib2
 import json
 import time
+import server_conf
 
 def URL_gen(feature_name,startDate,endDate,timeZone):
 
@@ -8,7 +9,8 @@ def URL_gen(feature_name,startDate,endDate,timeZone):
 
     #URL = "http://localhost:9000/api/first_launches?collection_name=events&endDate=2014-01-30&startDate=2014-01-02&timezone=pacific&token=8416e32af87f11e284c212313b0ace15&type=day"
 
-    host_name = "http://localhost:9000/api/"
+    #host_name = "http://localhost:9000/api/"
+    host_name = server_conf.API_host_name
 
     #test_feature = "first_launches"
 
@@ -70,13 +72,10 @@ def result_check():
 
 if __name__ == '__main__':
 
-    date_start = "2014-7-21" # local time
+    date_start = "2010-7-1" # local time
 
-    date_end = "2014-7-31"
+    date_end = "2010-7-30"
 
-    URL_gen("first_launches",date_start,date_end,"pacific")
+    print URL_gen("first_launches",date_start,date_end,"pacific")
 
-    URL_gen("user_start",date_start,date_end,"GMT")
-
-    URL_gen("new_buyer",date_start,date_end,"GMT")
 
