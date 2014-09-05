@@ -15,5 +15,5 @@ token_id = "8416e32af87f11e284c212313b0ace15"
 
 #### duration of testing ####
 
-Date_start = "2014-9-1"
-Date_end = "2014-9-2"
+Date_start = "2014-8-1"
+Date_end = "2014-8-31"

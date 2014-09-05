@@ -16,7 +16,7 @@ import json
 db = test_conf.current_database
 
 def Feature_range(date_start, date_end):
-    base_time = " 23:00:00"
+    base_time = " 23:00:00" #00:00:00
 
     date_start_time = int(time.mktime(time.strptime(str(date_start + base_time), "%Y-%m-%d %H:%M:%S")))
     date_end_time = int(time.mktime(time.strptime(str(date_end + base_time), "%Y-%m-%d %H:%M:%S")))
@@ -43,7 +43,8 @@ def Input_data_gen(date_start, duration, post_enable):
         cTime = int(time.mktime(time.strptime(str(current_date), "%Y-%m-%d %H:%M:%S")))
 
         ####################### First_launches users ########################
-        for amount_user in range(1000000*days):
+        #for amount_user in range(1*days):
+        for amount_user in range(10):
 
             country_code = random.choice(['CA'])
             distinct_id = str(country_code + "-" + str(uuid.uuid1()))
