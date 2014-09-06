@@ -63,22 +63,12 @@ def Input_data_gen(date_start, duration, post_enable):
 
             ####################    DAU #############################
 
-            DAU_users = Data_gen.package_generator("YA0start", cTime, distinct_id, country_code)
-            date_post(DAU_users, post_enable)
+            YA0birth_users = Data_gen.package_generator("YA0charge", cTime, distinct_id, country_code)
+            date_post(YA0birth_users, post_enable)
 
             # the following data should not be display on dashboard because they have same distinct_id as before
-            DAU_users = Data_gen.package_generator("YA0start", cTime, distinct_id, country_code)
-            date_post(DAU_users, post_enable)
-
-
-
-
-            ################# Generate distinct_id #################################
-
-
-
-            daily_total = amount_user + 1
-
+            YA0birth_users = Data_gen.package_generator("YA0charge", cTime, distinct_id, country_code)
+            date_post(YA0birth_users, post_enable)
 
 
             ##### retention data as follow ####
@@ -93,8 +83,8 @@ def Input_data_gen(date_start, duration, post_enable):
 
 
 
-                DAU_users = Data_gen.package_generator("YA0start", cTime, users_daily_id, country_code)
-                date_post(DAU_users, post_enable)
+                YA0birth_users = Data_gen.package_generator("YA0charge", cTime, users_daily_id, country_code)
+                date_post(YA0birth_users, post_enable)
 
 
 
@@ -121,6 +111,7 @@ if __name__ == '__main__':
         duration=int(Feature_range(test_conf.Date_start, test_conf.Date_end)[4]),
         post_enable=1)
     print a
+
 
 
 

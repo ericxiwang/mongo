@@ -5,13 +5,15 @@ __author__ = 'eric'
 ######  Generate 30 days user data ######
 
 import uuid
-import Data_gen
+from Generic_lib import Data_gen
 import time
 import datetime
 from datetime import date
 import pymongo
 import random
-import test_conf
+from Generic_lib import test_conf
+
+
 import json
 db = test_conf.current_database
 
@@ -43,8 +45,8 @@ def Input_data_gen(date_start, duration, post_enable):
         cTime = int(time.mktime(time.strptime(str(current_date), "%Y-%m-%d %H:%M:%S")))
 
         ####################### First_launches users ########################
-        for amount_user in range(1*days):
-        #for amount_user in range(10):
+        #for amount_user in range(1*days):
+        for amount_user in range(10):
 
             country_code = random.choice(['CA'])
             distinct_id = str(country_code + "-" + str(uuid.uuid1()))
@@ -53,12 +55,8 @@ def Input_data_gen(date_start, duration, post_enable):
 
             ####################    DAU #############################
 
-            DAU_users = Data_gen.package_generator("YA0start",cTime, distinct_id, country_code)
+            DAU_users = Data_gen.package_generator("YA0birth",cTime, distinct_id, country_code)
             date_post(DAU_users, post_enable)
-
-            DAU_users = Data_gen.package_generator("YA0start",cTime, distinct_id, country_code)
-            date_post(DAU_users, post_enable)
-
 
 
 

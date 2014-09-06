@@ -4,7 +4,7 @@ import pymongo
 ##### server setting #####
 DB_server = pymongo.Connection('localhost', 27017)
 
-current_database = DB_server.ymca
+current_database = DB_server.ymcatest
 
 API_host = "http://localhost:9000/api/"
 

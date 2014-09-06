@@ -7,7 +7,7 @@
 import uuid
 import datetime
 import time
-import test_conf
+from Generic_lib import test_conf
 
 
 def event_id_gen(random_datetime):  # generate the real event_id element

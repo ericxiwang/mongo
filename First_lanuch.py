@@ -5,13 +5,13 @@ __author__ = 'eric'
 # #####  Generate 30 days user data ######
 
 import uuid
-import Data_gen
+from Generic_lib import Data_gen
 import time
 import datetime
 from datetime import date
 import pymongo
 import random
-import test_conf
+from Generic_lib import test_conf
 import json
 
 db = test_conf.current_database

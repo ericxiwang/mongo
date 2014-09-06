@@ -4,7 +4,7 @@ import pymongo
 ##### server setting #####
 DB_server = pymongo.Connection('localhost', 27017)
 
-current_database = DB_server.ymca
+current_database = DB_server.ymcatest
 
 API_host = "http://localhost:9000/api/"
 
@@ -15,5 +15,5 @@ token_id = "8416e32af87f11e284c212313b0ace15"
 
 #### duration of testing ####
 
-Date_start = "2014-8-10"
-Date_end = "2014-8-10"
+Date_start = "2014-1-1"
+Date_end = "2014-1-1"
