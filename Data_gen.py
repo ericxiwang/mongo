@@ -24,7 +24,8 @@ def package_generator(event_name, Current_datetime, distinct_id, country_code):
 
     gmt_time = datetime.datetime(*tuple(GMT_DT)[:6])
 
-    pacific_time = datetime.datetime(*tuple(Pacific_DT)[:6])
+    #pacific_time = datetime.datetime(*tuple(Pacific_DT)[:6])
+
 
 
 
@@ -40,12 +41,13 @@ def package_generator(event_name, Current_datetime, distinct_id, country_code):
         "time": gmt_time,
 
 
-        #"time_pacific": pacific_time,
+        "time_pacific": gmt_time,
 
 
 
 
         "country": country_code
+
 
 
     }
